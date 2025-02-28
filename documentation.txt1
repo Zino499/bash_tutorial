@@ -1,0 +1,253 @@
+		THE BOURNE AGAIN SHELL
+
+
+                              The Bourne Shell: /bin/sh 
+The shell is one of the most important parts of a Unix system. A shell is a program
+that runs commands, like the ones that users enter. The shell also serves as a small programming
+environment. Unix programmers often break common tasks into little components and use
+the shell to manage tasks and piece things together. 
+
+Many important parts of the system are actually shell scripts—text files that contain a sequence of shell 
+commands. If you’ve worked with MS-DOS previously, you can think of shell scripts as very powerful .BAT 
+files. Because they’re important, Chapter 11 is devoted entirely to shell scripts. 
+
+As you progress through this book and gain practice, you’ll add to your knowledge of manipulating
+commands using the shell. One of the best things about the shell is that if you make a mistake, you can
+easily see what you typed to find out what went wrong, and then try again.
+ 
+There are many different Unix shells, but all derive several of their features from the Bourne shell
+(/bin/sh), a standard shell developed at Bell Labs for early versions of Unix. Every Unix system needs
+the Bourne shell in order to function correctly, as you will see throughout this book. 
+
+Linux uses an enhanced version of the Bourne shell called bash or the “Bourne-again” shell. The bash shell 
+is the default shell on most Linux distributions, and /bin/sh is normally a link to bash on a Linux system.
+You should use the bash shell when running the examples in this book. 
+
+NOTE 
+You may not have bash as your default shell if you’re using this chapter as a guide for a Unix 
+account at an organization where you’re not the system administrator. You can change your shell 
+with chsh or ask your system administrator for help.
+
+                                The Shell Window 
+After logging in, open a shell window (often referred to as a terminal). The easiest way to do so from a GUI
+like Gnome or Ubuntu’s Unity is to open a terminal application, which starts a shell inside a new window.
+Once you’ve opened a shell, it should display a prompt at the top that usually ends with a dollar sign ($).
+On Ubuntu, that prompt should look like name@host:path$, and on Fedora, it’s [name@host path]$. If you’re familiar
+with Windows, the shell window will look something like a DOS command prompt; the Terminal application in
+OS X is essentially the same as a Linux shell window. This book contains many commands that you will type at a shell prompt.
+They all begin with a single $ to denote the shell prompt. For example, type this command
+(just the part in bold, not the $) and press ENTER: 
+
+$ echo Hello there. 
+
+
+                                         NOTE 
+Many shell commands in this book start with #. You should run these as the superuser (root). These commands
+usually require extra caution. Now enter this command: 
+
+
+$ cat /etc/passwd 
+
+This command displays the contents of the /etc/passwd system information file and then returns your shell prompt.
+Don’t worry about what this file does right now; you’ll learn all about it later, in Chapter 7
+
+
+                                          cat 
+The cat command is one of the easiest Unix commands to understand; it simply outputs the contents of one or more files.
+The general syntax of the cat command is as follows: 
+
+$ cat file1 file2 
+
+When you run this command, cat prints the contents of file1, file2, and any other files that you specify 
+(denoted by ...), and then exits. The command is called cat because it performs concatenation when it prints
+the contents of more than one file.
+
+
+                                   Standard Input and Standard Output 
+We’ll use cat to briefly explore Unix input and output (I/O). Unix processes use I/O streams to read and write data.
+Processes read data from input streams and write data to output streams. Streams are very flexible. For example, the
+source of an input stream can be a file, a device, a terminal, or even the output stream from another process. 
+
+To see an input stream at work, enter cat (with no filenames) and press ENTER. This time, you won’t get your shell prompt
+back because cat is still running. Now type anything and press ENTER at the end of each line. The cat command repeats
+any line that you type. Once you’re sufficiently bored, press CTRL-D on an empty line to terminate cat and return to the shell prompt. 
+
+The reason cat adopted an interactive behavior has to do with streams. Because you did not specify an input filename, cat
+read from the standard input stream provided by the Linux kernel rather than a stream connected to a file.
+In this case, the standard input was connected to the terminal in which you ran cat. 
+
+
+                                            NOTE 
+Pressing CTRL-D on an empty line stops the current standard input entry from the terminal (and often terminates a program).
+Don’t confuse this with CTRL-C, which terminates a program regardless of its input or output. Standard output is similar.
+The kernel gives each process a standard output stream where it can write its output. The cat command always writes its
+output to the standard output. When you ran cat in the terminal, the standard output was connected to that terminal, so
+that’s where you saw the output. 
+
+Standard input and output are often abbreviated as stdin and stdout. Many commands operate as cat does; if you don’t specify
+an input file, the command reads from stdin. Output is a little different. Some commands (like cat) send output only to
+stdout, but others have the option to send output directly to files. 
+
+There is a third standard I/O stream called standard error. You’ll see it in 2.14.1 Standard Error. 
+One of the best features of standard streams is that you can easily manipulate them to read and write
+to places other than the terminal, as you’ll learn in 2.14 Shell Input and Output. In particular, you’ll
+learn how to connect streams to files and other processes.
+
+
+                                       Basic Commands 
+Now let’s look at some more Unix commands. Most of the following programs take multiple arguments, and some have so many
+options and formats that an unabridged listing would be pointless. This is a simplified list of the basic commands; you
+don’t need all of the details just yet.
+
+
+                                          ls 
+The ls command lists the contents of a directory. The default is the current directory. Use ls -l for a 
+detailed (long) listing and ls -F to display file type information. (For more on the file types and permissions
+displayed in the left column below, see 2.17 File Modes and Permissions.) Here is a sample long listing; it includes
+the owner of the file (column 3), the group (column 4), the file size (column 5), and the modification date/time
+(between column 5 and the filename):
+
+
+
+                                           cp 
+In its simplest form, cp copies files. For example, to copy file1 to file2, enter this: 
+
+$ cp file1 file2 
+
+To copy a number of files to a directory (folder) named dir, try this instead: 
+
+$ cp file1 ... fileN dir 
+
+                                          mv 
+The mv (move) command is like cp. In its simplest form, it renames a file. For example, to rename file1 to 
+file2, enter this: 
+
+$ mv file1 file2 
+
+You can also use mv to move a number of files to a different directory: 
+
+$ mv file1 ... fileN dir 
+
+
+                                         touch 
+The touch command creates a file. If the file already exists, touch does not change it, but it does update 
+the file’s modification time stamp printed with the ls -l command. For example, to create an empty file, 
+enter this: 
+
+$ touch file 
+
+Then run ls -l on that file. You should see output like the following, where the date and time ➊ indicate 
+when you ran touch: 
+
+
+$ ls -l file 
+-rw-r--r-- 1 juser users 0 May 21 18:32➊ file 
+
+                                             rm 
+To delete (remove) a file, use rm. After you remove a file, it’s gone from your system and generally cannot be undeleted. 
+
+$ rm file 
+
+                                            echo 
+The echo command prints its arguments to the standard output: 
+
+$ echo Hello again. 
+
+Hello again. 
+
+The echo command is very useful for finding expansions of shell globs (“wildcards” such as *) and variables (such as $HOME), which
+you will encounter later in this chapter.
+
+
+
+                                         Navigating Directories 
+Unix has a directory hierarchy that starts at /, sometimes called the root directory. The directory separator is
+the slash (/), not the backslash (\). There are several standard subdirectories in the root directory, such
+as /usr, as you’ll learn in 2.19 Linux Directory Hierarchy Essentials. 
+
+When you refer to a file or directory, you specify a path or pathname. When a path starts with / (such as 
+/usr/lib), it’s a full or absolute path.
+ 
+A path component identified by two dots (..) specifies the parent of a directory. For example, if you’re
+working in /usr/lib, the path .. would refer to /usr. Similarly, ../bin would refer to /usr/bin.
+ 
+One dot (.) refers to the current directory; for example, if you’re in /usr/lib, the path . is still /usr/lib, and
+./X11 is /usr/lib/X11. You won’t have to use . very often because most commands default to the current directory if
+a path doesn’t start with / (you could just use X11 instead of ./X11 in the preceding example). 
+
+A path not beginning with / is called a relative path. Most of the time, you’ll work with relative pathnames, 
+because you’ll already be in the directory you need to be in or somewhere close by. Now that you have a sense
+of the basic directory mechanics, here are some essential directory commands.
+
+
+
+                                            cd 
+The current working directory is the directory that a process (such as the shell) is currently in. The cd 
+command changes the shell’s current working directory: 
+
+$ cd dir
+ 
+If you omit dir, the shell returns to your home directory, the directory you started in when you first logged in. 
+
+                                           mkdir 
+The mkdir command creates a new directory dir: 
+
+$ mkdir dir 
+
+                                           rmdir 
+The rmdir command removes the directory dir: 
+
+$ rmdir dir 
+
+If dir isn’t empty, this command fails. However, if you’re impatient, you probably don’t want to laboriously delete
+all the files and subdirectories inside dir first. You can use rm -rf dir to delete a directory and its contents, but
+be careful! This is one of the few commands that can do serious damage, especially if you run it as the superuser.
+The -r option specifies recursive delete to repeatedly delete everything inside dir, and -f forces the delete operation.
+Don’t use the -rf flags with globs such as a star (*). And above all, always double-check your command before you run it.
+
+
+                                      Shell Globbing (Wildcards) 
+The shell can match simple patterns to file and directory names, a process known as globbing. This is similar to the
+concept of wildcards in other systems. The simplest of these is the glob character *, which tells the shell 
+to match any number of arbitrary characters. For example, the following command prints a list of files in the current directory:
+ 
+$ echo * 
+
+The shell matches arguments containing globs to filenames, substitutes the filenames for those arguments, and then runs
+the revised command line. The substitution is called expansion because the shell substitutes all 
+matching filenames. Here are some ways to use * to expand filenames: 
+
+o at* expands to all filenames that start with at. 
+
+o *at expands to all filenames that end with at.
+
+o at expands to all filenames that contain at. 
+
+If no files match a glob, the shell performs no expansion, and the command runs with literal characters such as *.
+For example, try a command such as echo *dfkdsafh. 
+
+                                                       NOTE 
+If you’re used to MS-DOS, you might instinctively type . to match all files. Break this habit now. In Linux and other
+versions of Unix, you must use * to match all files. In the Unix shell, . matches only files and directories that contain
+the dot (.) character in their names. Unix filenames do not need extensions and often do not carry them. 
+
+Another shell glob character, the question mark (?), instructs the shell to match exactly one arbitrary character.
+For example, b?at matches boat and brat. 
+
+If you don’t want the shell to expand a glob in a command, enclose the glob in single quotes (''). For example, the command
+echo '*' prints a star. You will find this handy for a few of the commands described in the next section, such as grep and find.
+(You’ll learn more much about quoting in 11.2 Quoting and Literals.) 
+
+                                                       NOTE 
+It is important to remember that the shell performs expansions before running commands, and only then. Therefore, if a * makes
+it to a command without expanding, the shell will do nothing more with it; it’s up to the command to decide what it wants to do. 
+
+There is more to a modern shell’s pattern-matching capabilities, but * and ? are what you need to know now.
+
+
+
+
+
+
+
+
