@@ -1,0 +1,741 @@
+
+GitHub CLI (gh) Complete Tutorial
+
+GitHub CLI (gh) is a command-line tool that allows you to interact with GitHub repositories, issues, pull requests, and more directly from the terminal. This guide covers installation, authentication, and essential commands for managing repositories, issues, pull requests, and workflows.
+
+1. Installing gh
+
+On Debian/Ubuntu
+
+sudo apt update
+sudo apt install gh
+
+On RHEL/Fedora
+
+sudo dnf install gh
+
+On Arch Linux
+
+sudo pacman -S github-cli
+
+On macOS
+
+brew install gh
+
+On Windows
+
+winget install --id GitHub.cli
+
+To verify installation:
+
+gh --version
+
+2. Authenticating with GitHub
+
+Login using OAuth:
+
+gh auth login
+
+You’ll be prompted to:
+
+Choose GitHub.com or Enterprise
+
+Select HTTPS or SSH authentication
+
+Authenticate via a browser
+
+
+To check authentication:
+
+gh auth status
+
+To log out:
+
+gh auth logout
+
+
+3. Managing Repositories
+
+Create a new repository
+
+gh repo create myrepo --private
+
+Options:
+
+--public → Create a public repository
+
+--private → Create a private repository
+
+--clone → Clone after creation
+
+--source . → Create from the current directory
+
+
+Clone a repository
+
+gh repo clone username/repository
+
+List repositories
+
+gh repo list
+
+List repositories from an organization:
+
+gh repo list my-org --limit 10
+
+View repository details
+
+gh repo view myrepo --web
+
+--web opens it in the browser.
+Fork a repository
+
+gh repo fork owner/repository
+
+--clone automatically clones the forked repo.
+
+
+Delete a repository
+
+gh repo delete username/repository
+
+(Add --confirm to skip confirmation.)
+
+
+4. Managing Issues
+
+List issues
+
+gh issue list
+
+--assignee @me → Show issues assigned to you
+
+--label bug → Filter by label
+
+--state closed → Show closed issues
+
+
+Create a new issue
+
+gh issue create --title "Bug in login feature" --body "The login page crashes on submit."
+
+--label bug → Assign a label
+
+--assignee username → Assign it to someone
+
+
+View an issue
+
+gh issue view 42
+
+--web → Open in the browser
+
+
+Comment on an issue
+
+gh issue comment 42 --body "I will work on this."
+
+Close an issue
+
+gh issue close 42
+
+Reopen an issue
+
+gh issue reopen 42
+
+5. Managing Pull Requests
+
+List pull requests
+
+gh pr list
+
+--state closed → Show closed PRs
+
+--state merged → Show merged PRs
+
+
+Create a pull request
+
+gh pr create --title "Fix login issue" --body "Fixed the login page crash." --base main --head feature-branch
+
+--draft → Create a draft PR
+
+--reviewer username → Assign reviewers
+
+
+View a pull request
+
+gh pr view 24
+
+--web → Open in browser
+
+
+Merge a pull request
+
+gh pr merge 24 --merge
+
+--squash → Squash and merge
+
+--rebase → Rebase and merge
+
+--delete-branch → Delete branch after merging
+
+
+Close a pull request
+
+gh pr close 24
+
+Checkout a pull request
+
+gh pr checkout 24
+
+6. Managing Releases
+
+Create a release
+
+gh release create v1.0.0 --title "Version 1.0.0" --notes "Initial release."
+
+--draft → Create a draft release
+
+--prerelease → Mark as a pre-release
+
+
+View releases
+
+gh release list
+
+Delete a release
+
+gh release delete v1.0.0
+
+
+7. Managing Workflows & Actions
+
+List workflows
+
+gh workflow list
+
+Run a workflow manually
+
+gh workflow run "CI Build"
+
+View workflow runs
+
+gh run list
+
+Check workflow status
+
+gh run status 123456789
+
+View workflow logs
+
+gh run view 123456789 --log
+
+
+8. Managing SSH Keys & GPG Keys
+
+Add an SSH key
+
+gh ssh-key add ~/.ssh/id_rsa.pub --title "Work Laptop"
+
+List SSH keys
+
+gh ssh-key list
+
+Delete an SSH key
+
+gh ssh-key delete 12345
+
+9. Managing Discussions
+
+List discussions
+
+gh discussion list --repo username/repository
+
+Create a new discussion
+
+gh discussion create --repo username/repository --title "Feature Request" --body "Can we add a dark mode?" --category "Ideas"
+
+Comment on a discussion
+
+gh discussion comment 123 --body "I support this feature."
+
+10. Scripting and Automation
+
+Since you're a Linux admin and automation expert, you can use gh in scripts.
+
+Example: Automate Issue Creation
+
+#!/bin/bash
+gh issue create --title "Server Crash Report" --body "$(cat crash.log)"
+
+Example: Automatically Merge PRs
+
+#!/bin/bash
+gh pr merge $(gh pr list --base main --state open --json number --jq '.[].number') --merge --delete-branch
+
+11. Configuring gh
+
+Set default editor
+
+gh config set editor vim
+
+Set default repository
+
+gh config set git_protocol ssh
+
+Check configuration
+
+gh config list
+
+2. Aliases for Shortcuts
+
+To create a shortcut for listing open issues:
+
+gh alias set issues "issue list --assignee @me --state open"
+
+Now you can use:
+
+gh issues
+
+13. Uninstalling gh
+
+On Debian/Ubuntu
+
+sudo apt remove gh
+
+On macOS
+
+brew uninstall gh
+
+On Windows
+
+winget uninstall GitHub.cli
+
+GitHub CLI (gh) is a powerful tool for managing repositories, issues, PRs, and workflows directly from the terminal. It’s especially useful for automating tasks and integrating with scripts.
+
+Complete Git Tutorial
+
+Git is a distributed version control system that helps track changes in files and coordinate work among developers. This tutorial covers installation, configuration, repository management, branching, merging, and advanced Git features.
+
+1. Installing Git
+
+On Debian/Ubuntu
+
+sudo apt update
+sudo apt install git
+
+On RHEL/Fedora
+
+sudo dnf install git
+
+On Arch Linux
+
+sudo pacman -S git
+
+On macOS
+
+brew install git
+
+On Windows
+
+Download and install Git from:
+https://git-scm.com/downloads
+
+To verify installation:
+
+git --version
+
+2. Configuring Git
+
+Set your user details:
+
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+
+Check the configuration:
+
+git config --list
+
+Set your default branch name:
+
+git config --global init.defaultBranch main
+
+3. Initializing and Cloning Repositories
+
+Initialize a new Git repository
+
+git init myrepo
+cd myrepo
+
+Clone an existing repository
+
+git clone https://github.com/user/repo.git
+
+For SSH:
+
+git clone git@github.com:user/repo.git
+
+
+4. Basic Git Workflow
+
+Check repository status
+
+git status
+
+Add files to staging area
+
+git add file1 file2
+git add .
+
+Commit changes
+
+git commit -m "Initial commit"
+
+View commit history
+
+git log --oneline --graph
+
+Push changes to a remote repository
+
+git push origin main
+
+Pull latest changes from a remote repository
+
+git pull origin main
+
+
+5. Working with Branches
+
+Create a new branch
+
+git branch feature-branch
+
+Switch to a branch
+
+git checkout feature-branch
+
+or
+
+git switch feature-branch
+
+Create and switch to a new branch
+
+git checkout -b new-branch
+
+or
+
+git switch -c new-branch
+
+List all branches
+
+git branch
+
+Merge a branch into main
+
+git checkout main
+git merge feature-branch
+
+Delete a branch
+
+5. Working with Branches
+
+Create a new branch
+
+git branch feature-branch
+
+Switch to a branch
+
+git checkout feature-branch
+
+or
+
+git switch feature-branch
+
+Create and switch to a new branch
+
+git checkout -b new-branch
+
+or
+
+git switch -c new-branch
+
+List all branches
+
+git branch
+
+Merge a branch into main
+
+git checkout main
+git merge feature-branch
+
+Delete a branch
+
+5. Working with Branches
+
+Create a new branch
+
+git branch feature-branch
+
+Switch to a branch
+
+git checkout feature-branch
+
+or
+
+git switch feature-branch
+
+Create and switch to a new branch
+
+git checkout -b new-branch
+
+or
+
+git switch -c new-branch
+
+List all branches
+
+git branch
+
+Merge a branch into main
+
+git checkout main
+git merge feature-branch
+
+Delete a branch
+
+5. Working with Branches
+
+Create a new branch
+
+git branch feature-branch
+
+Switch to a branch
+
+git checkout feature-branch
+
+or
+
+git switch feature-branch
+
+Create and switch to a new branch
+
+git checkout -b new-branch
+
+or
+
+git switch -c new-branch
+
+List all branches
+
+git branch
+
+Merge a branch into main
+
+git checkout main
+git merge feature-branch
+
+Delete a branch
+
+
+6. Stashing Changes
+
+Save uncommitted changes
+
+git stash
+
+List stashed changes
+
+git stash list
+
+Apply the latest stashed changes
+
+git stash apply
+
+Apply and delete the stash
+
+git stash pop
+
+Delete a specific stash
+
+git stash drop stash@{0}
+
+Clear all stashes
+
+git stash clear
+
+
+7. Undoing Changes
+
+Undo the last commit (keep changes)
+
+git reset --soft HEAD~1
+
+Undo the last commit (discard changes)
+
+git reset --hard HEAD~1
+
+Unstage a file
+
+git reset file.txt
+
+Revert a commit
+
+git revert <commit-hash>
+
+
+8. Working with Remotes
+
+Add a remote repository
+
+git remote add origin https://github.com/user/repo.git
+
+View remote repositories
+
+git remote -v
+
+Change remote URL
+
+git remote set-url origin new-url
+
+Remove a remote
+
+git remote remove origin
+
+Fetch changes from remote
+
+git fetch origin
+
+9. Resolving Merge Conflicts
+
+If Git reports a merge conflict:
+
+git status
+
+Manually edit conflicting files and then:
+
+git add resolved-file.txt
+git commit -m "Resolved merge conflict"
+
+10. Git Tags
+
+List tags
+
+git tag
+
+Create a tag
+
+git tag v1.0.0
+
+Create an annotated tag
+
+git tag -a v1.0.0 -m "Version 1.0.0 release"
+
+Push tags to remote
+
+git push origin v1.0.0
+
+Delete a local tag
+
+git tag -d v1.0.0
+
+Delete a remote tag
+
+git push --delete origin v1.0.0
+
+
+11. Git Aliases (Shortcuts)
+
+Set up useful aliases
+
+git config --global alias.st status
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.cm "commit -m"
+git config --global alias.lg "log --oneline --graph --all"
+
+Now you can use:
+
+git st
+git co main
+git br
+git cm "message"
+git lg
+
+
+12. Advanced Git
+
+Rebase a branch
+
+git checkout feature-branch
+git rebase main
+
+Interactive rebase (edit commits)
+
+git rebase -i HEAD~3
+
+Squash multiple commits into one
+
+In interactive rebase, change pick to squash for commits you want to merge.
+
+
+13. Git Hooks (Automation)
+
+Pre-commit Hook Example
+
+Create a .git/hooks/pre-commit file:
+
+#!/bin/bash
+echo "Running pre-commit hook..."
+
+Make it executable:
+
+chmod +x .git/hooks/pre-commit
+
+
+14. Git Bisect (Find Buggy Commits)
+
+git bisect start
+git bisect bad
+git bisect good <commit-hash>
+
+Git will check commits step-by-step to find the one that introduced a bug.
+
+
+
+15. Restoring Deleted Files
+
+Restore a deleted file
+
+git checkout HEAD -- deleted-file.txt
+
+Find a deleted file
+
+git log -- deleted-file.txt
+
+Recover a deleted commit
+
+git reflog
+git checkout <commit-hash>
+
+
+16. Uninstalling Git
+
+On Debian/Ubuntu
+
+sudo apt remove git
+
+On macOS
+
+brew uninstall git
+
+On Windows
+
+Uninstall via Control Panel or winget:
+
+winget uninstall Git
+
+
+Git is an essential tool for version control, collaboration, and automation. Mastering it helps in managing projects efficiently.
+
+
