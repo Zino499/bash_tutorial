@@ -1,0 +1,57 @@
+ 
+
+		Course outline 
+
+1.Hosting a website with github
+
+2.Hosting a website locally with apache2
+
+3.putting the website online using ngrok
+
+4.putting the website online using servo.net
+
+5.Using firewall to protect the system
+
+6.Cloudflare
+
+7..SSH
+
+8.Learn how to use guacomola
+
+9.learn how to use bind9
+
+10.Learn how to use openssl
+
+
+
+
+	Hosting with Github?
+
+here are step by step guide to host a webpage or website in github.com.
+
+	Note
+Github website or webpage are know as github pages. hosting a github pages
+is only allowed with one github account, which means you can not host more than one website
+in one github account.Github can only host frontend website which are writing in languages like
+Html, css, and Javascript.Github can not host backend applications writting in languages like python,
+Java, and C#
+
+
+for us to host our website or webpages in github:
+
+1.	Fisrt you must log in to the github website
+
+2.	Create a public repository
+
+3.	The name of the repository will be the name of the website
+
+4.	You can also create a Readme if you want
+
+5.	Add your website file into the repository you created either from the internet or from the terminal
+
+6.	Enable github pages
+
+7.	Access your website using the provided link from github, and access from any device in the world 
+
+
+
